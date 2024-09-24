@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 13000;
+const cors = require('cors');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -28,7 +29,7 @@ app.get('/download/:id', (req, res) => {
     res.status(404).send('File not found');
   }
 });
-
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('*', (req, res) => {
