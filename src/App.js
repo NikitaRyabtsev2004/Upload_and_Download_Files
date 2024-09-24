@@ -1,12 +1,13 @@
-import React, { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { QRCodeCanvas } from 'qrcode.react';
-import JSZip from 'jszip';
+// src/App.js
+import React, { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { QRCodeCanvas } from "qrcode.react";
+import JSZip from "jszip";
 
 function App() {
   const [files, setFiles] = useState([]);
-  const [uniqueLink, setUniqueLink] = useState(null); 
-  const [isDragging, setIsDragging] = useState(false); 
+  const [uniqueLink, setUniqueLink] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const onDrop = (acceptedFiles) => {
     const fileObjects = acceptedFiles.map((file) => ({
@@ -18,12 +19,19 @@ function App() {
 
   const sendZipToBackend = async (zipBlob) => {
     const formData = new FormData();
-    formData.append('zipFile', zipBlob, 'uploaded_files.zip');
+    formData.append("zipFile", zipBlob, "uploaded_files.zip");
 
-    const response = await fetch('/upload', {
-      method: 'POST',
+    const response = await fetch("http://localhost:13000/upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       body: formData,
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     const data = await response.json();
     setUniqueLink(data.downloadUrl);
@@ -36,7 +44,7 @@ function App() {
       zip.file(fileObj.file.name, fileObj.file);
     });
 
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const zipBlob = await zip.generateAsync({ type: "blob" });
 
     await sendZipToBackend(zipBlob);
   };
@@ -60,13 +68,18 @@ function App() {
     <div className="container">
       <h1 className="header">Upload Files & Generate Download Link 📦</h1>
 
-      {/* Drag and Drop Zone */}
-      <div {...getRootProps()} className={`dropzone ${isDragging ? 'dragging' : ''}`}>
+      <div
+        {...getRootProps()}
+        className={`dropzone ${isDragging ? "dragging" : ""}`}
+      >
         <input {...getInputProps()} />
-        <p>{isDragging ? 'Drop files here' : 'Drag & drop files here, or click to select files'}</p>
+        <p>
+          {isDragging
+            ? "Drop files here"
+            : "Drag & drop files here, or click to select files"}
+        </p>
       </div>
 
-      {/* Display dropped files */}
       <div className="files-container">
         {files.length > 0 && (
           <>
@@ -80,14 +93,12 @@ function App() {
         )}
       </div>
 
-      {/* Generate ZIP button */}
       {files.length > 0 && (
         <button className="button" onClick={generateZipArchive}>
           Generate ZIP & Link
         </button>
       )}
 
-      {/* Display unique link and QR code */}
       {uniqueLink && (
         <div className="link-section">
           <div className="download-link">
@@ -98,7 +109,6 @@ function App() {
             </button>
           </div>
 
-          {/* QR Code for the unique link */}
           <div className="qr-code">
             <QRCodeCanvas value={uniqueLink} size={200} />
             <p>Scan to download ZIP</p>
