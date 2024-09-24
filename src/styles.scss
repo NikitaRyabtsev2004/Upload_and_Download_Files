@@ -1,0 +1,211 @@
+:root {
+    --primary-color: #794e4e;
+    --background-color: #000000;
+    --text-color: #333;
+    --border-radius-1: 50px;
+    --border-radius-2: 10px;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes colorChange {
+    0% { --primary-color: #794e4e; }
+    10% { --primary-color: #5d737e; }
+    20% { --primary-color: #7a5c61; }
+    30% { --primary-color: #606c38; }
+    40% { --primary-color: #4a4e69; }
+    50% { --primary-color: #627264; }
+    60% { --primary-color: #6b5b95; }
+    70% { --primary-color: #8d8741; }
+    80% { --primary-color: #345995; }
+    90% { --primary-color: #8b687f; }
+    100% { --primary-color: #794e4e; }
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: url("https://i.pinimg.com/originals/50/5a/fc/505afcdb064e1969449bbb52b3beeef1.gif") center / cover no-repeat;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    animation: colorChange 30s infinite;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    width: calc(100% - 20px);
+    background: #ffffffe8;
+    padding: 10px;
+    border-radius: var(--border-radius-1);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    padding-bottom: 50px;
+}
+
+.header, .dropzone, .button, .copy-button {
+    transition: all 3s ease-in-out;
+}
+
+.header {
+    color: var(--primary-color);
+    font-size: clamp(24px, 5vw + 1rem, 36px);
+    margin-bottom: 20px;
+    text-align: center;
+    width: 70%;
+}
+
+.dropzone {
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    border: 2px dashed var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+    margin-bottom: 5px;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.files-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: var(--border-radius-2);
+    width: 100%;
+    max-width: 300px;
+    background: white;
+
+    p {
+        text-align: center;
+    }
+
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+}
+
+.button {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-2);
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: clamp(14px, 2vw + 1rem, 18px);
+    width: 200px;
+    height: 60px;
+
+    &:hover {
+        background: #2c80b9;
+        animation: hover 400ms ease-out forwards !important;
+    }
+}
+
+.link-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.download-link {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 300px;
+
+    input {
+        padding: 5px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: var(--border-radius-2);
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+    }
+
+    .copy-button {
+        padding: 5px 10px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius-2);
+        cursor: pointer;
+        width: 200px;
+        height: 30px;
+
+        &:hover {
+            background: #2c80b9;
+            animation: hover 400ms ease-out forwards !important;
+        }
+    }
+}
+
+.qr-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: var(--border-radius-2);
+    background: var(--primary-color);
+    transition: all 3s ease-in-out;
+    p {
+        color: #000;
+        background: #fff;
+        margin-top: 5px;
+        border-radius: 10px;
+        padding: 5px;
+        font-size: clamp(12px, 2vw + 0.5rem, 16px);
+        text-align: center;
+    }
+}
+
+@keyframes hover {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+    .header {
+        font-size: clamp(20px, 5vw + 1rem, 28px);
+    }
+    .button {
+        font-size: clamp(12px, 2vw + 1rem, 16px);
+    }
+    .download-link {
+        flex-direction: column;
+    }
+}
