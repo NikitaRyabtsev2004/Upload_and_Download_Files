@@ -21,7 +21,7 @@ function App() {
     const formData = new FormData();
     formData.append("zipFile", zipBlob, "uploaded_files.zip");
 
-    const response = await fetch("http://localhost:13000/upload", {
+    const response = await fetch("http://193.200.74.72:13000/upload", {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
